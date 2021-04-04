@@ -1,5 +1,5 @@
 const { body, validationResult } = require("express-validator");
-const { schedules, Sequelize } = require("../../models");
+const { schedules, classes, Sequelize } = require("../../models");
 const { failed } = require("../../config/response");
 
 exports.runValidator = (req, res, next) => {
@@ -31,6 +31,13 @@ exports.postValidator = [
   
   body("end","Waktu Selesai tidak boleh kosong").notEmpty(),
   
+   body("class_id", "class tidak boleh kosong")
+    .notEmpty()
+    .custom(async (value) => {
+      const class_id = await classes.findOne({ where: { id: value } });
+      if (!class_id) return Promise.reject("Kelas tidak tersedia");
+    }),
+  
 ];
 
 exports.putValidator = [
@@ -54,5 +61,10 @@ exports.putValidator = [
     body("start","Waktu Mulai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal mulai yyyy-mm-dd"),
   
   body("end","Waktu Selesai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal  selesai yyyy-mm-dd"),
-  
+  body("class_id", "class tidak boleh kosong")
+    .notEmpty()
+    .custom(async (value) => {
+      const class_id = await classes.findOne({ where: { id: value } });
+      if (!class_id) return Promise.reject("Kelas tidak tersedia");
+    }),
 ];

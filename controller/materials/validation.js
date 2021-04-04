@@ -1,5 +1,5 @@
 const { body, validationResult } = require("express-validator");
-const { books, type_books, Sequelize } = require("../../models");
+const { materials, schedules, Sequelize } = require("../../models");
 const { failed } = require("../../config/response");
 
 exports.runValidator = (req, res, next) => {
@@ -9,45 +9,37 @@ exports.runValidator = (req, res, next) => {
   next();
 };
 
-exports.bookType = [
-  body("name").notEmpty().withMessage("Tipe buku tidak boleh kosong"),
-];
-
-exports.putBookType = [
-  body("id").notEmpty().withMessage("Id tipe tidak boleh kosong"),
-  body("name").notEmpty().withMessage("Tipe buku tidak boleh kosong"),
-];
 
 exports.postValidator = [
-  body("name", "nama buku tidak boleh kosong")
+  body("name", "nama material tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
-      const book = await books.findOne({ where: { name: value } });
-      if (book) {
-        return Promise.reject("Nama buku telah digunakan");
+      const material = await materials.findOne({ where: { name: value } });
+      if (material) {
+        return Promise.reject("Nama material telah digunakan");
       }
     }),
-  body("type_books_id", "type buku tidak boleh kosong")
+  body("schedule_id", "schedule tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
-      const type_books_id = await type_books.findOne({ where: { id: value } });
-      if (!type_books_id) return Promise.reject("Tipe buku tidak tersedia");
+      const schedule_id = await schedules.findOne({ where: { id: value } });
+      if (!schedule_id) return Promise.reject("Schedule tidak tersedia");
     }),
 ];
 
 exports.putValidator = [
-  body("name", "nama buku tidak boleh kosong")
+  body("name", "nama material tidak boleh kosong")
     .notEmpty()
     .custom(async (value, { req }) => {
-      const book = await books.findOne({
+      const material = await materials.findOne({
         where: { name: value, id: { [Sequelize.Op.ne]: req.body.id } },
       });
-      if (book) return Promise.reject("Nama buku telah digunakan");
+      if (material) return Promise.reject("Nama material telah digunakan");
     }),
-  body("type_books_id", "type buku tidak boleh kosong")
+  body("schedule_id", "schedule tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
-      const type_books_id = await type_books.findOne({ where: { id: value } });
-      if (!type_books_id) return Promise.reject("Tipe buku tidak tersedia");
+      const schedule_id = await schedules.findOne({ where: { id: value } });
+      if (!schedule_id) return Promise.reject("Schedule tidak tersedia");
     }),
 ];
