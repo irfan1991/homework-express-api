@@ -6,7 +6,7 @@ exports.create = async (req, res) => {
     return res.json(failed({ message: "data presence tidak boleh kosong" }));
   const presence = req.body.presences;
   const payload = presence.map((presence) => ({
-    schedules_id: presence.schedules_id,
+    schedule_id: presence.schedule_id,
     join_class_id: presence.join_class_id,
     created_at: presence.created_at,
   }));
@@ -31,7 +31,7 @@ exports.get = async (req, res) => {
         {
           model: presences,
           attributes: [
-            [sequelize.fn("sum", sequelize.col("presences.created_at")), "jumlah_kehadiran"],
+            [sequelize.fn("sum", sequelize.col("presences.created_at")), "created_at"],
           ],
           include: {
             model: join_classes,
