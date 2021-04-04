@@ -14,21 +14,21 @@ exports.postValidator = [
   body("name", "nama Class tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
-      const type_book = await classes.findOne({ where: { name: value } });
-      if (type_book) {
+      const kelas = await classes.findOne({ where: { name: value } });
+      if (kelas) {
         return Promise.reject("Nama Class telah digunakan");
       }
     }),
     body("code", "code Class tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
-      const type_book = await classes.findOne({ where: { code: value } });
-      if (type_book) {
+      const kelas = await classes.findOne({ where: { code: value } });
+      if (kelas) {
         return Promise.reject("code Class telah digunakan");
       }
     }),
-    body("date_start").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
-    body("date_end").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
+    body("date_start","tanggal Mulai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
+    body("date_end","tanggal Selesai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
 
   body("photo")
     .custom((value, {req}) => {
@@ -55,21 +55,21 @@ exports.putValidator = [
   body("name", "nama Class tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
-      const type_book = await classes.findOne({ where: { name: value } });
-      if (type_book) {
+      const kelas = await classes.findOne({ where: { name: value } });
+      if (kelas) {
         return Promise.reject("Nama Class telah digunakan");
       }
     }),
     body("code", "code Class tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
-      const type_book = await classes.findOne({ where: { code: value } });
-      if (type_book) {
+      const kelas = await classes.findOne({ where: { code: value } });
+      if (kelas) {
         return Promise.reject("code Class telah digunakan");
       }
     }),
-    body("date_start").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
-    body("date_end").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
+    body("date_start","tanggal Mulai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
+    body("date_end","tanggal Selesai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
 
   body("photo")
     .custom((value, {req}) => {

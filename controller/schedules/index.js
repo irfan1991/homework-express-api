@@ -9,9 +9,9 @@ exports.get = async ({ query }, res) => {
       where,
       include: [classes],
     });
-    return res.json(success({ message: "data buku berhasil diterima", data }));
+    return res.json(success({ message: "data schedule berhasil diterima", data }));
   } catch (error) {
-    return res.json(failed({ data: error }));
+    return res.json(failed({ data: error.message }));
   }
 };
 
@@ -25,7 +25,7 @@ exports.show = async ( req, res) => {
     });
     return res.json(success({ message: "data berhasil diterima", data: data }));
   } catch (error) {
-    return res.json(failed({ message: "ERROR SYSTEM", data: error }));
+    return res.json(failed({ message: "ERROR SYSTEM", data: error.message }));
   }
 };
 
@@ -38,10 +38,11 @@ exports.create = async ({ body }, res) => {
       end : body.end,
       code : body.code
     };
+    console.log(payload)
     const data = await schedules.create(payload);
     return res.json(success({ message: "data berhasil ditambahkan", data }));
   } catch (error) {
-    return res.json(failed({ data: error }));
+    return res.json(failed({ data: error.message }));
   }
 };
 
@@ -64,7 +65,7 @@ exports.update = async ({ body }, res) => {
       })
     );
   } catch (error) {
-    return res.json(failed({ data: error }));
+    return res.json(failed({ data: error.message }));
   }
 };
 
@@ -81,8 +82,8 @@ exports.del = async ({ body }, res) => {
           data,
         })
       );
-    else throw "Buku tidak ditemukan";
+    else throw "schedule tidak ditemukan";
   } catch (error) {
-    return res.json(failed({ data: error }));
+    return res.json(failed({ data: error.message }));
   }
 };

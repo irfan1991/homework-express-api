@@ -11,35 +11,48 @@ exports.runValidator = (req, res, next) => {
 
 
 exports.postValidator = [
-  body("name", "nama schedule tidak boleh kosong")
+   body("name", "nama Schedule tidak boleh kosong")
     .notEmpty()
     .custom(async (value) => {
       const schedule = await schedules.findOne({ where: { name: value } });
       if (schedule) {
-        return Promise.reject("Nama schedule telah digunakan");
+        return Promise.reject("Nama Schedule telah digunakan");
       }
     }),
-    body("code").notEmpty().withMessage("Code tidak boleh kosong"),
-    body("start").notEmpty().withMessage("Code tidak boleh kosong")
-    .isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
-    body("end").notEmpty().withMessage("Code tidak boleh kosong")
-    .isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
+    body("code", "code Schedule tidak boleh kosong")
+    .notEmpty()
+    .custom(async (value) => {
+      const schedule = await schedules.findOne({ where: { code: value } });
+      if (schedule) {
+        return Promise.reject("code Schedule telah digunakan");
+      }
+    }),
+  body("start","Waktu Mulai tidak boleh kosong").notEmpty(),
+  
+  body("end","Waktu Selesai tidak boleh kosong").notEmpty(),
   
 ];
 
 exports.putValidator = [
-  body("name", "nama schedule tidak boleh kosong")
+   body("name", "nama Schedule tidak boleh kosong")
     .notEmpty()
-    .custom(async (value, { req }) => {
-      const schedule = await schedules.findOne({
-        where: { name: value, id: { [Sequelize.Op.ne]: req.body.id } },
-      });
-      if (schedule) return Promise.reject("Nama schedule telah digunakan");
+    .custom(async (value) => {
+      const schedule = await schedules.findOne({ where: { name: value } });
+      if (schedule) {
+        return Promise.reject("Nama Schedule telah digunakan");
+      }
     }),
-   body("code").notEmpty().withMessage("Code tidak boleh kosong"),
-    body("start").notEmpty().withMessage("Code tidak boleh kosong")
-    .isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
-    body("end").notEmpty().withMessage("Code tidak boleh kosong")
-    .isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal yyyy-mm-dd"),
+    body("code", "code Schedule tidak boleh kosong")
+    .notEmpty()
+    .custom(async (value) => {
+      const schedule = await schedules.findOne({ where: { code: value } });
+      if (schedule) {
+        return Promise.reject("code Schedule telah digunakan");
+      }
+    }),
+
+    body("start","Waktu Mulai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal mulai yyyy-mm-dd"),
+  
+  body("end","Waktu Selesai tidak boleh kosong").notEmpty().isDate({format: 'yyyy-mm-dd'}).withMessage("Format tanggal  selesai yyyy-mm-dd"),
   
 ];
