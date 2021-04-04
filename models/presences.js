@@ -19,13 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   presences.init(
     {
-      id: {
-        primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        unique: true
-      },
+    
       schedule_id: {
         type: DataTypes.UUID,
         references: {
@@ -54,8 +48,10 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: 'updatedAt',
        deletedAt: 'deletedAt'
    
-    }
+    },
+    
   );
+  presences.removeAttribute('id');
   return presences;
 };
 
