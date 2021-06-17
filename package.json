@@ -1,5 +1,5 @@
 {
-    "name": "sandbox",
+    "name": "classroom_backend",
     "version": "0.0.0",
     "private": true,
     "scripts": {
@@ -25,7 +25,8 @@
         "os": "^0.1.1",
         "path": "^0.12.7",
         "sequelize": "^6.6.2",
-        "uuid": "^8.3.2"
+        "uuid": "^8.3.2",
+        "vue-qrcode-reader": "^3.0.1"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.14",
